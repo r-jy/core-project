@@ -3,15 +3,17 @@ IntDict kincaidcounts;
 String[] keys;
 StringList kincaidwords;
 StringList woolfwords;
-PFont butler;
+PFont yumin;
+PFont pingfang;
+float theta;
 ///////////////////////////
 void setup() {
  frameRate(3.5);
   size(500,500);
   background(0);
   textSize(50);
-  butler = loadFont("YuMin-Extrabold-30.vlw");
-  textFont(butler);
+  yumin = loadFont("YuMin-Extrabold-30.vlw");
+  textFont(yumin);
   //create woolf dictioanry
   woolfcounts = new IntDict(); //lowercase dictionary with words and wordcount
   String[] wlines = loadStrings("aroomofonesown.txt");
@@ -66,7 +68,7 @@ void setup() {
    }
 }
 void draw(){
-  background(0);
+  background(180, 131, 138);
   fill(204, 102, 0);
   noStroke();
   rect(0, height/2, width, height/2);
@@ -75,6 +77,8 @@ void draw(){
   line(0, height/2, width, height/2);
   fill(255);
   int rand = (int)random(kincaidwords.size());
+  yumin = loadFont("YuMin-Extrabold-30.vlw");
+  textFont(yumin);
   textAlign(CENTER,BOTTOM);
   text(kincaidwords.get(rand),width/2,3*height/4);
   //text(kincaidwords.get(rand),CENTER,3*height/4);
@@ -86,12 +90,14 @@ void draw(){
  void mouseClicked() {
   if (mouseY < height/2){ 
     fill(255);
-    textAlign(LEFT,TOP);
-    text("woolf",width/20,height/20);
+    textAlign(CENTER,TOP);
+    textSize(20);
+    text("woolf",width/2,height/30);
   }
   if (mouseY > height/2) {
-    textAlign(LEFT,BOTTOM);
-    text("kincaid",width/20,19*height/20);
+    textAlign(CENTER,TOP);
+     textSize(20);
+    text("kincaid",width/2,height/2 + height/30);
   }
     
     }
