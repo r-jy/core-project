@@ -92,7 +92,7 @@ void draw(){
     fill(255);
     textAlign(CENTER,TOP);
     textSize(20);
-    text("woolf",width/2,height/30);
+    text("woolf",width/2,height/50);
   }
   if (mouseY > height/2) {
     textAlign(CENTER,TOP);
