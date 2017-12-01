@@ -1,11 +1,13 @@
+
 IntDict woolfcounts;
 IntDict kincaidcounts;
 String[] keys;
-StringList kincaidwords;
-StringList woolfwords;
+ArrayList<String> kincaidwords;
+ArrayList<String> woolfwords;
 PFont yumin;
 PFont pingfang;
 float theta;
+String hello;
 ///////////////////////////
 void setup() {
  frameRate(3.5);
@@ -20,7 +22,6 @@ void setup() {
   String wallwords = join(wlines,'\n');
   String delimiters = " —,.?!;:\n-()[]*\"";
   String[] wtokens = splitTokens(wallwords,delimiters);
-  //printArray(tokens);
   for (int i = 0; i < wtokens.length;i++){
     String wword = wtokens[i].toLowerCase();
     if (woolfcounts.hasKey(wword)) {
@@ -30,13 +31,11 @@ void setup() {
     }
   }
   woolfcounts.sortValues();
-  println(woolfcounts);
   // create kincaid dictionary
   kincaidcounts = new IntDict(); //lowercase dictionary with words and wordcount
   String[] klines = loadStrings("asmallplace.txt");
   String kallwords = join(klines,'\n');
   String[] ktokens = splitTokens(kallwords,delimiters);
-  //printArray(tokens);
   for (int i = 0; i < ktokens.length;i++){
     String kword = ktokens[i].toLowerCase();
     if (kincaidcounts.hasKey(kword)) {
@@ -45,28 +44,65 @@ void setup() {
      kincaidcounts.set(kword,1);}
     }
   kincaidcounts.sortValues();
-  println(kincaidcounts);
 // draw woolf image
  String [] woolfkeys = woolfcounts.keyArray();
- woolfwords = new StringList();
+ woolfwords = new ArrayList<String>();
     for (String k: woolfkeys) {
       int wcount = woolfcounts.get(k);
       woolfcounts.set(k,wcount);
       if (!kincaidcounts.hasKey(k)){
-        woolfwords.append(k);
+        woolfwords.add(k);
       }
       }
 // draw kincaid image
    String [] kincaidkeys = kincaidcounts.keyArray();
-   kincaidwords = new StringList();
+   kincaidwords = new ArrayList<String>();
     for (String k: kincaidkeys) {
       int kcount = kincaidcounts.get(k);
       kincaidcounts.set(k,kcount);
       if (!woolfcounts.hasKey(k)){
-        kincaidwords.append(k);
+        kincaidwords.add(k);
       }
    }
+  for (int j = 0; j < woolfwords.size();j++) {
+    if (woolfwords.get(j).charAt(0) == '\''){
+      woolfwords.set(j,woolfwords.get(j).substring(1));
+    }
+     if (woolfwords.get(j).length() >= 2){
+      if (woolfwords.get(j).charAt(woolfwords.get(j).length()-1)=='\'' && woolfwords.get(j).charAt(woolfwords.get(j).length()-2)!='s'){
+        println(j);
+        woolfwords.set(j,woolfwords.get(j).substring(0,woolfwords.get(j).length()-2));
+        //j=j.substring(0,j.length()-2);
+      }
+      
+    }
+    if (woolfwords.get(j)=="\'"){
+       woolfwords.remove(j);
+       j = j-1;
+     }
+    
+  }
+  for (int j = 0; j < kincaidwords.size();j++) {
+    if (kincaidwords.get(j).charAt(0) == '\''){
+      kincaidwords.set(j,kincaidwords.get(j).substring(1));
+    }
+     if (kincaidwords.get(j).length() >= 2){
+      if (kincaidwords.get(j).charAt(kincaidwords.get(j).length()-1)=='\'' && kincaidwords.get(j).charAt(kincaidwords.get(j).length()-2)!='s'){
+        println(j);
+        kincaidwords.set(j,kincaidwords.get(j).substring(0,kincaidwords.get(j).length()-2));
+        //j=j.substring(0,j.length()-2);
+      }
+     if (kincaidwords.get(j)=="\'"){
+       kincaidwords.remove(j);
+       j = j-1;
+     }
+      
+    }
+    
+  }
+  print(woolfwords);
 }
+
 void draw(){
   background(180, 131, 138);
   fill(204, 102, 0);
