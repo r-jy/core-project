@@ -5,12 +5,9 @@ String[] keys;
 ArrayList<String> kincaidwords;
 ArrayList<String> woolfwords;
 PFont yumin;
-PFont pingfang;
-float theta;
-String hello;
 ///////////////////////////
 void setup() {
- frameRate(3.5);
+ frameRate(3.0);
   size(500,500);
   background(0);
   textSize(50);
@@ -48,61 +45,64 @@ void setup() {
  String [] woolfkeys = woolfcounts.keyArray();
  woolfwords = new ArrayList<String>();
     for (String k: woolfkeys) {
-      int wcount = woolfcounts.get(k);
-      woolfcounts.set(k,wcount);
-      if (!kincaidcounts.hasKey(k)){
-        woolfwords.add(k);
+     if(k.length()>1){
+       if (k.charAt(k.length()-2)=='\'' && k.charAt(k.length()-1)=='s'){
+        k = k.substring(0,k.length()-2);
       }
+     }
+     if(k.length()>1){
+       if (k.charAt(k.length()-2)=='s' && k.charAt(k.length()-1)=='\''){
+        k = k.substring(0,k.length()-2);
       }
+     }
+     if(k.length()>1){
+       if (k.charAt(k.length()-1)=='\''){
+        k = k.substring(0,k.length()-1);
+      }
+     }
+     if(k.length()>=1){
+      if (k.charAt(0)=='\''){
+        k = k.substring(1);}
+     }
+     if (!kincaidcounts.hasKey(k)){
+        woolfwords.add(k);}
+     if (k.length()<=2){
+       woolfwords.remove(k);
+     }
+      }
+ print(woolfwords);
 // draw kincaid image
    String [] kincaidkeys = kincaidcounts.keyArray();
    kincaidwords = new ArrayList<String>();
     for (String k: kincaidkeys) {
-      int kcount = kincaidcounts.get(k);
-      kincaidcounts.set(k,kcount);
-      if (!woolfcounts.hasKey(k)){
+     if(k.length()>1){
+       if (k.charAt(k.length()-2)=='\'' && k.charAt(k.length()-1)=='s'){
+        k = k.substring(0,k.length()-2);
+      }
+     }
+     if(k.length()>1){
+       if (k.charAt(k.length()-2)=='s' && k.charAt(k.length()-1)=='\''){
+        k = k.substring(0,k.length()-2);
+      }
+     }
+     if(k.length()>1){
+       if (k.charAt(k.length()-1)=='\''){
+        k = k.substring(0,k.length()-1);
+      }
+     }
+     if(k.length()>=1){
+      if (k.charAt(0)=='\''){
+        k = k.substring(1);}
+     }
+     if (!woolfcounts.hasKey(k)){
         kincaidwords.add(k);
       }
-   }
-  for (int j = 0; j < woolfwords.size();j++) {
-    if (woolfwords.get(j).charAt(0) == '\''){
-      woolfwords.set(j,woolfwords.get(j).substring(1));
-    }
-     if (woolfwords.get(j).length() >= 2){
-      if (woolfwords.get(j).charAt(woolfwords.get(j).length()-1)=='\'' && woolfwords.get(j).charAt(woolfwords.get(j).length()-2)!='s'){
-        println(j);
-        woolfwords.set(j,woolfwords.get(j).substring(0,woolfwords.get(j).length()-2));
-        //j=j.substring(0,j.length()-2);
-      }
-      
-    }
-    if (woolfwords.get(j)=="\'"){
-       woolfwords.remove(j);
-       j = j-1;
+     if (k.length()<=2){
+       kincaidwords.remove(k);
      }
-    
-  }
-  for (int j = 0; j < kincaidwords.size();j++) {
-    if (kincaidwords.get(j).charAt(0) == '\''){
-      kincaidwords.set(j,kincaidwords.get(j).substring(1));
     }
-     if (kincaidwords.get(j).length() >= 2){
-      if (kincaidwords.get(j).charAt(kincaidwords.get(j).length()-1)=='\'' && kincaidwords.get(j).charAt(kincaidwords.get(j).length()-2)!='s'){
-        println(j);
-        kincaidwords.set(j,kincaidwords.get(j).substring(0,kincaidwords.get(j).length()-2));
-        //j=j.substring(0,j.length()-2);
+print(kincaidwords);
       }
-     if (kincaidwords.get(j)=="\'"){
-       kincaidwords.remove(j);
-       j = j-1;
-     }
-      
-    }
-    
-  }
-  print(woolfwords);
-}
-
 void draw(){
   background(180, 131, 138);
   fill(204, 102, 0);
@@ -117,7 +117,6 @@ void draw(){
   textFont(yumin);
   textAlign(CENTER,BOTTOM);
   text(kincaidwords.get(rand),width/2,3*height/4);
-  //text(kincaidwords.get(rand),CENTER,3*height/4);
   int rand1 = (int)random(woolfwords.size());
   textAlign(CENTER,TOP);
   text(woolfwords.get(rand1),width/2,height/4);
