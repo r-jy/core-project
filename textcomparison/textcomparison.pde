@@ -1,9 +1,10 @@
-
 IntDict woolfcounts;
 IntDict kincaidcounts;
 String[] keys;
 ArrayList<String> kincaidwords;
 ArrayList<String> woolfwords;
+ArrayList<String> removek;
+ArrayList<String> removew;
 PFont yumin;
 ///////////////////////////
 void setup() {
@@ -44,6 +45,7 @@ void setup() {
 // draw woolf image
  String [] woolfkeys = woolfcounts.keyArray();
  woolfwords = new ArrayList<String>();
+ removew = new ArrayList<String>();
     for (String k: woolfkeys) {
      if(k.length()>1){
        if (k.charAt(k.length()-2)=='\'' && k.charAt(k.length()-1)=='s'){
@@ -64,8 +66,7 @@ void setup() {
       if (k.charAt(0)=='\''){
         k = k.substring(1);}
      }
-     if (!kincaidcounts.hasKey(k)){
-        woolfwords.add(k);}
+     woolfwords.add(k);
      if (k.length()<=2){
        woolfwords.remove(k);
      }
@@ -74,6 +75,7 @@ void setup() {
 // draw kincaid image
    String [] kincaidkeys = kincaidcounts.keyArray();
    kincaidwords = new ArrayList<String>();
+   removek = new ArrayList<String>();
     for (String k: kincaidkeys) {
      if(k.length()>1){
        if (k.charAt(k.length()-2)=='\'' && k.charAt(k.length()-1)=='s'){
@@ -94,15 +96,27 @@ void setup() {
       if (k.charAt(0)=='\''){
         k = k.substring(1);}
      }
-     if (!woolfcounts.hasKey(k)){
-        kincaidwords.add(k);
-      }
+     kincaidwords.add(k);
      if (k.length()<=2){
        kincaidwords.remove(k);
      }
     }
-print(kincaidwords);
-      }
+for (String k: woolfwords){
+  if (kincaidwords.contains(k)){
+    removew.add(k);
+  }
+}
+print(removew);
+ for (String k: kincaidwords){
+   if (woolfwords.contains(k)){
+     removek.add(k);
+   }
+ }
+woolfwords.removeAll(removew);
+kincaidwords.removeAll(removek);
+}
+
+
 void draw(){
   background(180, 131, 138);
   fill(204, 102, 0);
